@@ -4,7 +4,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <h2>Dashboard</h2>
+        <h2>Dashboard for {this.props.siteTitle}</h2>
       </div>
     );
   }
