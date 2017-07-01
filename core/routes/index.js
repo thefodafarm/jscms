@@ -1,11 +1,12 @@
 import express from 'express'
 
-import * as db from '../db/index.json';
 
 const router = express.Router()
 
 router.get('/', (req, res) => {
-  res.json(db.siteTitle)
+	const db = req.app.get('db');
+	const siteTitle = db.get('pages').map('title')
+	res.json(siteTitle)
 });
 
 export default router

@@ -1,3 +1,7 @@
 {
-  "siteTitle": "JUST.IS"
+  "pages": {
+    "home": {
+      "title": "Home page"
+    }
+  }
 }
