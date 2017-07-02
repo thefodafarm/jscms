@@ -11,7 +11,7 @@ import routes from './routes/index.js'
 
 const app = express();
 
-const db = low('./core/db/index.json', { storage: fileAsync })
+const db = low('./core/db/.index.json', { storage: fileAsync })
 
 app.use(cors())
 
