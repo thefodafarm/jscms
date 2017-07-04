@@ -1,9 +1,11 @@
 const defaultdb = {
-	pages: {
-		home:{
-			title: 'Home page'
+	pages: [
+		{
+			id: 1,
+			title: 'just.is',
+			content: 'loremipsum'
 		}
-	}
+	]
 }
 
 export default defaultdb

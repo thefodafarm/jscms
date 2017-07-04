@@ -8,6 +8,7 @@ import axios from 'axios'
 import Header from '../components/Header'
 
 import Dashboard from './Dashboard'
+import EditPage from './EditPage'
 
 const instance = axios.create({baseURL: 'http://localhost:1337'})
 
@@ -17,14 +18,21 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      "siteTitle": "NULL"
+      "pages": []
     }
-    this.getCurrentSiteTitle()
+    this.getPages()
   }
 
-  getCurrentSiteTitle() {
-    instance.get('/')
-      .then((response) => { this.setState({"siteTitle": response.data})})
+  getPages() {
+    instance.get('/admin/listPages')
+      .then(
+        (response) => {
+          this.setState(
+            {
+              "pages": response.data
+            }
+          )
+        })
       .catch((error) => {console.log(error)})
   }
 
@@ -37,8 +45,14 @@ class App extends Component {
           </div>
           <div className="Wrapper">
             <Route exact path="/" render={ () => (
-              <Dashboard siteTitle={this.state.siteTitle} />
-            ) } />
+              <Dashboard pages={this.state.pages} />
+            )} />
+            <Route path="/admin/new-page" render={ () => (
+              <EditPage />
+            )} />
+            <Route path="/admin/edit-page/:id" render={ () => (
+              <EditPage />
+            )} />
           </div>
         </div>
       </Router>

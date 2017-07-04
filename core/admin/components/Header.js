@@ -13,6 +13,7 @@ class Header extends Component {
       <div className="Header">
         <ul className="Header__navContainer">
           <Link to="/" className="Header__navItem Header__navItem">Dashboard</Link>
+          <Link to="/admin/new-page" className="Header__navItem Header__navItem">New Page</Link>
         </ul>
       </div>
     )

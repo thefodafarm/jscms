@@ -1,12 +1,13 @@
 import express from 'express'
-
+import pageController from '../controllers/pageController'
 
 const router = express.Router()
 
-router.get('/', (req, res) => {
-	const db = req.app.get('db');
-	const siteTitle = db.get('pages').map('title')
-	res.json(siteTitle)
-});
+
+router.get('/admin/listPages', pageController.listPages);
+
+router.post('/admin/createPage', pageController.createPage);
+
+
 
 export default router
