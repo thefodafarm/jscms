@@ -22,6 +22,7 @@ class App extends Component {
     }
     this.createPage = this.createPage.bind(this)
     this.getPages = this.getPages.bind(this)
+    this.editPage = this.editPage.bind(this)
 
 
   }
@@ -53,6 +54,15 @@ class App extends Component {
     })
   }
 
+  editPage(id, page) {
+    instance.put(`/admin/editPage/${id}`,page).then((response) => {
+      this.getPages();
+      window.location.replace('/')
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
+
 
   render() {
     return (
@@ -69,7 +79,7 @@ class App extends Component {
               <AddEditPage {...props} createPage={this.createPage} />
             )} />
             <Route path="/admin/edit-page/:id" render={ (props) => (
-              <AddEditPage {...props} pages={this.state.pages} />
+              <AddEditPage {...props} pages={this.state.pages} editPage={this.editPage} />
             )} />
           </div>
         </div>

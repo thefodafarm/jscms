@@ -15,8 +15,9 @@ class AddEditPage extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleNestedChange = this.handleNestedChange.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
 
-  
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -45,6 +46,11 @@ class AddEditPage extends Component {
     this.props.createPage(this.state);
   }
 
+  handleUpdate(e) {
+    e.preventDefault();
+    this.props.editPage(this.props.match.params.id, this.state)
+  }
+
   addInput() {
     const newInput = { className: '', body: ''}
     this.setState({content: this.state.content.concat(newInput)});
@@ -61,6 +67,7 @@ class AddEditPage extends Component {
             id={`${i}`} 
             placeholder="Class name"
             onChange={this.handleNestedChange}
+            value={this.state.content[0].className || ''}
           />
           <input 
             type="text" 
@@ -68,25 +75,28 @@ class AddEditPage extends Component {
             placeholder="Body"
             id={`${i}`}
             onChange={this.handleNestedChange}
+            value={this.state.content[0].body || ''}
           />
         </div>
       )
     })
 
+
     return (
       <div>
         <h2>New Page</h2>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.state.title ? this.handleUpdate : this.handleSubmit}>
         	<input 
             type="text" 
             name="title" 
-            placeholder={this.state.title || `Enter the title`}
-            onChange={this.handleChange} 
+            placeholder={`Enter the title`}
+            onChange={this.handleChange}
+            value={this.state.title || ''} 
             />
           <h3>Content</h3>
             {contentInputs}
             <button onClick={this.addInput}>Add</button>
-          <input type="submit" />
+          <input type="submit" value={this.state.title ? `Update` : `Submit`}/>
         </form>
       </div>
     );
