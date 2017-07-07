@@ -6,6 +6,7 @@ const router = express.Router()
 
 router.get('/admin/listPages', pageController.listPages);
 
+
 router.post('/admin/createPage', pageController.createPage);
 
 

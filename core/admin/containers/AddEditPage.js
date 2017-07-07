@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
-class EditPage extends Component {
+
+
+class AddEditPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -10,14 +12,37 @@ class EditPage extends Component {
       ]
     }
     this.addInput = this.addInput.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleNestedChange = this.handleNestedChange.bind(this);
+
+  
   }
 
-  onChange(e) {
+  componentWillReceiveProps(nextProps) {
+    const page = nextProps.pages[this.props.match.params.id]
+    this.setState(page)
+  }
 
+
+  handleChange(e) {
+    const value = e.target.value
+    this.setState({
+      [e.target.name]: value
+    })
+  }
+
+  handleNestedChange(e) {
+    const newStateContent = this.state.content;
+    newStateContent[e.target.id][e.target.name] = e.target.value;
+    this.setState({
+      content: newStateContent
+    });
   }
 
   handleSubmit(e) {
     e.preventDefault();
+    this.props.createPage(this.state);
   }
 
   addInput() {
@@ -27,20 +52,22 @@ class EditPage extends Component {
 
 
   render() {
-    const contentInputs = this.state.content.map((content)=> {
+    const contentInputs = this.state.content.map((content, i)=> {
      return (
-        <div>
+        <div key={i}>
           <input 
             type="text" 
-            name="contentClass" 
+            name="className"
+            id={`${i}`} 
             placeholder="Class name"
-            value={content.className}
+            onChange={this.handleNestedChange}
           />
           <input 
             type="text" 
-            name="contentBody" 
+            name="body" 
             placeholder="Body"
-            value={content.body}
+            id={`${i}`}
+            onChange={this.handleNestedChange}
           />
         </div>
       )
@@ -54,7 +81,7 @@ class EditPage extends Component {
             type="text" 
             name="title" 
             placeholder={this.state.title || `Enter the title`}
-            onChange={this.onChange} 
+            onChange={this.handleChange} 
             />
           <h3>Content</h3>
             {contentInputs}
@@ -66,4 +93,4 @@ class EditPage extends Component {
   }
 }
 
-export default EditPage;
+export default AddEditPage;

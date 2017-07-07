@@ -8,7 +8,7 @@ import axios from 'axios'
 import Header from '../components/Header'
 
 import Dashboard from './Dashboard'
-import EditPage from './EditPage'
+import AddEditPage from './AddEditPage'
 
 const instance = axios.create({baseURL: 'http://localhost:1337'})
 
@@ -20,6 +20,13 @@ class App extends Component {
     this.state = {
       "pages": []
     }
+    this.createPage = this.createPage.bind(this)
+    this.getPages = this.getPages.bind(this)
+
+
+  }
+
+  componentDidMount() {
     this.getPages()
   }
 
@@ -36,6 +43,17 @@ class App extends Component {
       .catch((error) => {console.log(error)})
   }
 
+  createPage(page) {
+    instance.post('/admin/createPage',page).then((response) => {
+      this.getPages();
+      //TODO: Create my own history object as props, then use router to push route.
+      window.location.replace('/')
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
+
+
   render() {
     return (
       <Router>
@@ -44,14 +62,14 @@ class App extends Component {
             <Header />
           </div>
           <div className="Wrapper">
-            <Route exact path="/" render={ () => (
-              <Dashboard pages={this.state.pages} />
+            <Route exact path="/" render={ (props) => (
+              <Dashboard {...props} pages={this.state.pages} />
             )} />
-            <Route path="/admin/new-page" render={ () => (
-              <EditPage />
+            <Route path="/admin/new-page" render={ (props) => (
+              <AddEditPage {...props} createPage={this.createPage} />
             )} />
-            <Route path="/admin/edit-page/:id" render={ () => (
-              <EditPage />
+            <Route path="/admin/edit-page/:id" render={ (props) => (
+              <AddEditPage {...props} pages={this.state.pages} />
             )} />
           </div>
         </div>

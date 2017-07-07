@@ -1,9 +1,8 @@
 const defaultdb = {
 	pages: [
 		{
-			id: 1,
 			title: 'just.is',
-			content: 'loremipsum'
+			content: [{className: 'wrapper', body: 'lorem ipsum'}]
 		}
 	]
 }
