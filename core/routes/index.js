@@ -10,6 +10,7 @@ router.get('/admin/listPages', pageController.listPages);
 router.post('/admin/createPage', pageController.createPage);
 
 router.put('/admin/editPage/:id', pageController.editPage);
+router.delete('/admin/deletePage/:id', pageController.deletePage);
 
 
 

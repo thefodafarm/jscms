@@ -20,11 +20,11 @@ class App extends Component {
     this.state = {
       "pages": []
     }
+
     this.createPage = this.createPage.bind(this)
     this.getPages = this.getPages.bind(this)
     this.editPage = this.editPage.bind(this)
-
-
+    this.deletePage = this.deletePage.bind(this)
   }
 
   componentDidMount() {
@@ -63,6 +63,14 @@ class App extends Component {
     })
   }
 
+  deletePage(id) {
+    instance.delete(`/admin/deletePage/${id}`).then((response) => {
+      this.getPages();
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
+
 
   render() {
     return (
@@ -73,7 +81,7 @@ class App extends Component {
           </div>
           <div className="Wrapper">
             <Route exact path="/" render={ (props) => (
-              <Dashboard {...props} pages={this.state.pages} />
+              <Dashboard {...props} deletePage={this.deletePage} pages={this.state.pages} />
             )} />
             <Route path="/admin/new-page" render={ (props) => (
               <AddEditPage {...props} createPage={this.createPage} />

@@ -17,7 +17,6 @@ class AddEditPage extends Component {
     this.handleNestedChange = this.handleNestedChange.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
 
-
   }
 
   componentWillReceiveProps(nextProps) {

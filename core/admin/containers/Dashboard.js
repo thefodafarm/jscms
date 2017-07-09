@@ -1,13 +1,25 @@
 import React, { Component } from 'react';
 
-class App extends Component {
-  render() {
+class Dashboard extends Component {
+  constructor(props){
+    super(props)
+    this.handleDelete = this.handleDelete.bind(this)
+  }
 
+  handleDelete(id) {
+    return (e) => {
+      e.preventDefault()
+      this.props.deletePage(id)
+    }
+  }
+
+  render() {
   	const pages = this.props.pages.map((page, i) => {
   		return (
         <div key={i}>
         <h2>{page.title}</h2>
         <a href={`/admin/edit-page/${i}`}>Edit</a>
+        <button onClick={this.handleDelete(i)}>Delete</button>
         </div>
         )
   	});
@@ -21,4 +33,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Dashboard;
