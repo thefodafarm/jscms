@@ -6,9 +6,11 @@ import {
 import axios from 'axios'
 
 import Header from '../components/Header'
+import Auth from '../components/Auth'
 
 import Dashboard from './Dashboard'
 import AddEditPage from './AddEditPage'
+import Login from './Login'
 
 const instance = axios.create({baseURL: 'http://localhost:1337'})
 
@@ -18,7 +20,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      "pages": []
+      pages: [],
+      loggedIn: false
     }
 
     this.createPage = this.createPage.bind(this)
@@ -32,16 +35,9 @@ class App extends Component {
   }
 
   getPages() {
-    instance.get('/admin/listPages')
-      .then(
-        (response) => {
-          this.setState(
-            {
-              "pages": response.data
-            }
-          )
-        })
-      .catch((error) => {console.log(error)})
+    instance.get('/admin/listPages').then((response) => {
+          this.setState({"pages": response.data})
+    }).catch((error) => {console.log(error)})
   }
 
   createPage(page) {
@@ -81,13 +77,22 @@ class App extends Component {
           </div>
           <div className="Wrapper">
             <Route exact path="/" render={ (props) => (
-              <Dashboard {...props} deletePage={this.deletePage} pages={this.state.pages} />
+              <Auth loggedIn={this.state.loggedIn}>
+                <Dashboard {...props} deletePage={this.deletePage} pages={this.state.pages} />
+              </Auth>
             )} />
             <Route path="/admin/new-page" render={ (props) => (
-              <AddEditPage {...props} createPage={this.createPage} />
+              <Auth loggedIn={this.state.loggedIn}>
+                <AddEditPage {...props} createPage={this.createPage} />
+              </Auth>
             )} />
             <Route path="/admin/edit-page/:id" render={ (props) => (
+              <Auth loggedIn={this.state.loggedIn}>
               <AddEditPage {...props} pages={this.state.pages} editPage={this.editPage} />
+              </Auth>
+            )} />
+            <Route path="/admin/login" render={(props) => (
+              <Login {...props} />
             )} />
           </div>
         </div>
