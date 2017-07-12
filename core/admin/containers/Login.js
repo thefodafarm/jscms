@@ -10,12 +10,14 @@ class Login extends Component {
       password: ''
     }
     this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
 
 
   handleSubmit(e) {
     e.preventDefault();
+    this.props.signin(this.state.email, this.state.password)
   }
 
   handleChange(e) {
