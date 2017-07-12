@@ -1,10 +1,5 @@
-const defaultdb = {
-	pages: [
-		{
-			title: 'just.is',
-			content: [{className: 'wrapper', body: 'lorem ipsum'}]
-		}
-	]
-}
+import db from '../db'
 
-export default defaultdb
+export default class Page {
+
+}

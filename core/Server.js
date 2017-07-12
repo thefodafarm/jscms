@@ -3,21 +3,17 @@ import session from 'express-session'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import passport from 'passport'
+import morgan from 'morgan'; 
 import promisify from 'es6-promisify'
 import cors from 'cors'
-import low from 'lowdb'
-import fileAsync from 'lowdb/lib/storages/file-async'
-
 
 import { initDb } from './db/index.js'
+import db from './db'
 import routes from './routes/index.js'
 
 const app = express();
 
-const db = low('./core/db/.index.json', { storage: fileAsync })
-
 app.use(cors())
-
 app.set('db', db);
 
 app.use(bodyParser.json());
@@ -32,8 +28,12 @@ app.use(session({
 	saveUninitialized: false
 }));
 
+// Log requests to console
+app.use(morgan('dev'));  
+
 app.use(passport.initialize());
 app.use(passport.session());
+require('./config/passport')(passport);  
 
 app.use((req,res, next) => {
 	res.locals.user = req.user || null
@@ -45,6 +45,12 @@ app.use((req, res, next) => {
 	next();
 });
 
+app.use(function(err, req, res, next) {
+
+	res.status(err.status || 500);
+	res.json({message: 'Unknown', error: error});
+});
+
 app.use('/', routes);
 
 app.set('port', process.env.PORT || 1337);
@@ -52,6 +58,7 @@ app.set('port', process.env.PORT || 1337);
 if(!db.has('pages').value()) {
 	initDb(db);
 }
+
 
 
 
