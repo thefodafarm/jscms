@@ -1,4 +1,5 @@
 exports.listPages = (req, res) => {
+
 	const db = req.app.get('db');
 	const pages = db.get('pages')
 	res.json(pages)

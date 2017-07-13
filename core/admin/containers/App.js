@@ -16,7 +16,6 @@ const instance = axios.create({baseURL: 'http://localhost:1337'})
 axios.defaults.headers.common['Authorization'] = 'JWT' + localStorage.getItem('just.is.token');
 
 
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -44,7 +43,7 @@ class App extends Component {
           this.setState({"pages": response.data})
     }).catch((error) => {console.log(error)})
   }
-
+  
   createPage(page) {
     instance.post('/admin/createPage',page).then((response) => {
       this.getPages();
@@ -77,10 +76,10 @@ class App extends Component {
       this.setState({
         loggedIn: true
       });
-
+      
       window.localStorage.setItem('just.is.token', response.data.token);
       window.location.replace('/');
-      axios.defaults.headers.common['Authorization'] = 'JWT' + localStorage.getItem('just.is.token');
+      axios.defaults.headers.common['Authorization'] = 'JWT  ' + localStorage.getItem('just.is.token');
     }).catch((error) => {
       console.log(error);
     })
@@ -90,16 +89,16 @@ class App extends Component {
     this.setState({
       loggedIn: false
     });
+    
+    window.localStorage.removeItem('just.ls.token');
 
-    window.localStorage.removeItem('just.is.token');
     window.location.replace('/admin/login');
   }
 
   register() {
     //TODO register
   }
-
-
+  
   render() {
     return (
       <Router>
@@ -115,16 +114,16 @@ class App extends Component {
             )} />
             <Route path="/admin/new-page" render={ (props) => (
               <Auth loggedIn={this.state.loggedIn}>
-                <AddEditPage {...props} createPage={this.createPage} />
+                <AddEditPage {...props} createPage={this.createPage} editPage={this.editPage}/>
               </Auth>
             )} />
             <Route path="/admin/edit-page/:id" render={ (props) => (
               <Auth loggedIn={this.state.loggedIn}>
-              <AddEditPage {...props} pages={this.state.pages} editPage={this.editPage} />
+              <AddEditPage {...props} pages={this.state.pages} editPage={this.editPage} createPage={this.createPage}/>
               </Auth>
             )} />
             <Route path="/admin/login" render={(props) => (
-              <Login {...props} signin={this.signin} />
+              <Login {...props} signin={this.signin}/>
             )} />
           </div>
         </div>

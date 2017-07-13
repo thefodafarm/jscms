@@ -2,41 +2,60 @@ import db from '../db'
 import Promise from 'promise'
 import bcrypt from 'bcrypt'
 
-export default class user {
+
+export default class User {
 	model = {
 		email: '',
 		password: ''
 	}
-
 	constructor(newUser) {
 		this.model.id = newUser.id ? newUser.id : db.get('users').size() + 1;
 		this.model.email = newUser.email;
 		this.model.password = newUser.password;
 	}
 
-	const save = () => {
+
+	save() {
+		var _this = this;
 		return User.addUser(this);
 	}
+
+
+	beforeSave() {
+		
+	} 
 
 	static addUser(newUser) {
 		return new Promise((resolve, reject) => {
 			const isExist = db.get('users').find({'email': newUser.model.email}).value();
 			if(isExist) {
-				reject(new Error('Email in use'))
+				reject(new Error('Email Duplicated'));
 			} else {
-				const salt = bcrpyt.genSaltSync();
-				const hash = bcrpyt.hashSync(newUser.model.password, salt);
+				// ----- Bcrypt ---- ///
+				const salt = bcrypt.genSaltSync();
+				const hash = bcrypt.hashSync(newUser.model.password, salt);
 
 				newUser.model.password = hash;
+				// ----- Bcrypt ---- ///
 
 				db.get('users').push(newUser.model).write();
-				resolve(newUser)
+				resolve(newUser);
 			}
-		})
+			
+		});
 	}
 
-	comparePassword(pw, cb) {
+	
+	comparePassword(pw, cb) {  
+		// ----- Plain Password ------ //
+		// if( this.model.password !== pw ){
+		// 	cb(null, false);
+		// }
+		// cb(null, true);
+		// ----- Plain Password ------ //
+
+
 		const bool = bcrypt.compareSync(pw, this.model.password);
 		cb(null, bool);
-	}
+	};
 }

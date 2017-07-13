@@ -17,7 +17,7 @@ class Login extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.signin(this.state.email, this.state.password)
+    this.props.signin(this.state.email, this.state.password);
   }
 
   handleChange(e) {

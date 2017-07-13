@@ -10,9 +10,8 @@ const defaultdb = {
 	users: [
 		{
 			id: 1,
-			email: 'admin@localhost',
+			email: 'admin',
 			saltedPass: bcrypt.hashSync('letmein', bcrypt.genSaltSync())
-
 		}
 	]
 }

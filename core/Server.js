@@ -3,9 +3,9 @@ import session from 'express-session'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import passport from 'passport'
+import morgan from 'morgan'; 
 import promisify from 'es6-promisify'
 import cors from 'cors'
-import morgan from 'morgan';
 
 
 import { initDb } from './db/index.js'
@@ -15,7 +15,6 @@ import routes from './routes/index.js'
 const app = express();
 
 app.use(cors())
-
 app.set('db', db);
 
 app.use(bodyParser.json());
@@ -30,11 +29,14 @@ app.use(session({
 	saveUninitialized: false
 }));
 
-app.use(morgan('dev'));
+
+// Log requests to console
+app.use(morgan('dev'));  
 
 app.use(passport.initialize());
 app.use(passport.session());
-require('./config/passport')(passport);
+require('./config/passport')(passport);  
+
 
 app.use((req,res, next) => {
 	res.locals.user = req.user || null
@@ -46,7 +48,7 @@ app.use((req, res, next) => {
 	next();
 });
 
-app.use(function(err,req,res,next) {
+app.use(function(err, req, res, next) {
 	res.status(err.status || 500);
 	res.json({message: 'Unknown', error: error});
 });
@@ -58,6 +60,7 @@ app.set('port', process.env.PORT || 1337);
 if(!db.has('pages').value()) {
 	initDb(db);
 }
+
 
 
 
