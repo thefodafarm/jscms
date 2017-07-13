@@ -54,7 +54,7 @@ export default class User {
 		// cb(null, true);
 		// ----- Plain Password ------ //
 
-
+		console.log(pw, this.model);
 		const bool = bcrypt.compareSync(pw, this.model.password);
 		cb(null, bool);
 	};
