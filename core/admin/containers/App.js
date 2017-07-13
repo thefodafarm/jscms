@@ -13,7 +13,7 @@ import AddEditPage from './AddEditPage'
 import Login from './Login'
 
 const instance = axios.create({baseURL: 'http://localhost:1337'})
-axios.defaults.headers.common['Authorization'] = 'JWT' + localStorage.getItem('just.is.token');
+axios.defaults.headers.common['Authorization'] = 'JWT ' + localStorage.getItem('just.is.token');
 
 
 class App extends Component {
@@ -79,7 +79,7 @@ class App extends Component {
       
       window.localStorage.setItem('just.is.token', response.data.token);
       window.location.replace('/');
-      axios.defaults.headers.common['Authorization'] = 'JWT  ' + localStorage.getItem('just.is.token');
+      axios.defaults.headers.common['Authorization'] = 'JWT ' + localStorage.getItem('just.is.token');
     }).catch((error) => {
       console.log(error);
     })

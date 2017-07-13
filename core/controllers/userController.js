@@ -19,7 +19,7 @@ exports.register = (req, res, next) => {
     })
     .catch(err => {
       // return next(err);
-      res.json({success: false, message: err.message, err: err});
+      res.status(401).json({success: false, message: err.message, err: err});
     });
   }
 }
