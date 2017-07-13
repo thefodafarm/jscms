@@ -13,21 +13,22 @@ import AddEditPage from './AddEditPage'
 import Login from './Login'
 
 const instance = axios.create({baseURL: 'http://localhost:1337'})
-axios.defaults.headers.common['Authorization'] = 'JWT  ' + localStorage.getItem('just.ls.token');
+axios.defaults.headers.common['Authorization'] = 'JWT' + localStorage.getItem('just.is.token');
+
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       pages: [],
-      loggedIn: localStorage.getItem('just.ls.token') ? true : false
+      loggedIn: localStorage.getItem('just.is.token') ? true : false
     }
 
     this.createPage = this.createPage.bind(this)
     this.getPages = this.getPages.bind(this)
     this.editPage = this.editPage.bind(this)
     this.deletePage = this.deletePage.bind(this)
-    
+
     this.register = this.register.bind(this)
     this.signin = this.signin.bind(this)
     this.signout = this.signout.bind(this)
@@ -76,10 +77,9 @@ class App extends Component {
         loggedIn: true
       });
       
-      window.localStorage.setItem('just.ls.token', response.data.token);
+      window.localStorage.setItem('just.is.token', response.data.token);
       window.location.replace('/');
-      axios.defaults.headers.common['Authorization'] = 'JWT  ' + localStorage.getItem('just.ls.token');
-
+      axios.defaults.headers.common['Authorization'] = 'JWT  ' + localStorage.getItem('just.is.token');
     }).catch((error) => {
       console.log(error);
     })

@@ -2,17 +2,18 @@ import db from '../db'
 import Promise from 'promise'
 import bcrypt from 'bcrypt'
 
+
 export default class User {
 	model = {
 		email: '',
 		password: ''
 	}
 	constructor(newUser) {
-	
 		this.model.id = newUser.id ? newUser.id : db.get('users').size() + 1;
 		this.model.email = newUser.email;
 		this.model.password = newUser.password;
 	}
+
 
 	save() {
 		var _this = this;

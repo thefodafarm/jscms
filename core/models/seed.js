@@ -15,4 +15,5 @@ const defaultdb = {
 		}
 	]
 }
+
 export default defaultdb;

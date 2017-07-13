@@ -20,6 +20,11 @@ class Header extends Component {
         <ul className="Header__navContainer" style={{float: 'left'}}>
           <Link to="/" className="Header__navItem Header__navItem">Dashboard</Link>
           <Link to="/admin/new-page" className="Header__navItem Header__navItem">New Page</Link>
+          {!this.props.loggedIn ?
+            <Link to="/admin/login">Login</Link>
+            :
+            <a onClick={this.handleSignout} href="#">Log Out</a>
+          }
         </ul>
         <ul className="Header__navContainer" style={{float: 'right'}}>
           {!this.props.loggedIn ? 

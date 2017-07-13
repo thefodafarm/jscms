@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import promisify from 'es6-promisify'
 import cors from 'cors'
 
+
 import { initDb } from './db/index.js'
 import db from './db'
 import routes from './routes/index.js'
@@ -28,12 +29,14 @@ app.use(session({
 	saveUninitialized: false
 }));
 
+
 // Log requests to console
 app.use(morgan('dev'));  
 
 app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport')(passport);  
+
 
 app.use((req,res, next) => {
 	res.locals.user = req.user || null
@@ -46,7 +49,6 @@ app.use((req, res, next) => {
 });
 
 app.use(function(err, req, res, next) {
-
 	res.status(err.status || 500);
 	res.json({message: 'Unknown', error: error});
 });
