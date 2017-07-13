@@ -90,7 +90,7 @@ class App extends Component {
       loggedIn: false
     });
     
-    window.localStorage.removeItem('just.ls.token');
+    window.localStorage.removeItem('just.is.token');
 
     window.location.replace('/admin/login');
   }

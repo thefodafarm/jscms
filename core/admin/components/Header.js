@@ -17,19 +17,15 @@ class Header extends Component {
   render() {
     return (
       <div className="Header">
-        <ul className="Header__navContainer" style={{float: 'left'}}>
-          <Link to="/" className="Header__navItem Header__navItem">Dashboard</Link>
-          <Link to="/admin/new-page" className="Header__navItem Header__navItem">New Page</Link>
-          
-        </ul>
-        <ul className="Header__navContainer" style={{float: 'right'}}>
+        <ul>
+          <Link to="/">Dashboard</Link>
+          <Link to="/admin/new-page">New Page</Link>
           {!this.props.loggedIn ? 
-            <Link to="/admin/login" className="Header__navItem Header__navItem">Log in</Link>
+            <Link to="/admin/login">Log in</Link>
             :
-            <a onClick={this.handleClick} href="#" className="Header__navItem Header__navItem">&nbsp;&nbsp;Log out</a>
+            <a onClick={this.handleClick} href="#">Log out</a>
           }
         </ul>
-        <div style={{clear:'both'}}></div>
       </div>
     )
   }

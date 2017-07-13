@@ -1,4 +1,4 @@
-import User from '../models/Users'
+import User from '../models/User'
 import db from '../db'
 import jwt from 'jsonwebtoken'
 import config from '../config/config'
@@ -8,7 +8,7 @@ exports.register = (req, res, next) => {
     res.json({ success: false, message: 'Please enter email and password.' });
   } else {
     
-    var newUser = new User({
+    const newUser = new User({
       email: req.body.email,
       password: req.body.password
     });
@@ -26,7 +26,7 @@ exports.register = (req, res, next) => {
 
 
 exports.signin = (req, res) => {
-  var user = db.get('users').find({email: req.body.email}).value();
+  const user = db.get('users').find({email: req.body.email}).value();
   if (!user) {
     res.send({ success: false, message: 'Authentication failed. User not found.' });
   } else {
@@ -34,7 +34,7 @@ exports.signin = (req, res) => {
     new User(user).comparePassword(req.body.password, function(err, isMatch) {
       if (isMatch && !err) {
         // Create token if the password matched and no error was thrown
-        var token = jwt.sign(user, config.secret, {
+        const token = jwt.sign(user, config.secret, {
           expiresIn: 10080 // in seconds
         });
         res.json({ success: true, token:  token });

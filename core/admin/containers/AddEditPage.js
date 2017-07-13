@@ -84,18 +84,18 @@ class AddEditPage extends Component {
     return (
       <div>
         <h2>New Page</h2>
-        <form onSubmit={this.state.title ? this.handleUpdate : this.handleSubmit}>
+        <form onSubmit={this.props.match.params.id ? this.handleUpdate : this.handleSubmit}>
         	<input 
             type="text" 
             name="title" 
             placeholder={`Enter the title`}
             onChange={this.handleChange}
-            value={this.state.title || ''} 
+            value={this.state.title} 
             />
           <h3>Content</h3>
             {contentInputs}
             <button onClick={this.addInput}>Add</button>
-          <input type="submit" value={this.state.title ? `Update` : `Submit`}/>
+          <input type="submit" value={this.props.match.params.id ? `Update` : `Submit`}/>
         </form>
       </div>
     );

@@ -1,5 +1,7 @@
-exports.listPages = (req, res) => {
+import Page from '../models/Page'
 
+
+exports.listPages = (req, res) => {
 	const db = req.app.get('db');
 	const pages = db.get('pages')
 	res.json(pages)
