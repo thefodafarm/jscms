@@ -3,19 +3,21 @@ import session from 'express-session'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import passport from 'passport'
-import morgan from 'morgan'; 
+import morgan from 'morgan';
 import promisify from 'es6-promisify'
 import cors from 'cors'
 
 
 import { initDb } from './db/index.js'
 import db from './db'
-import routes from './routes/index.js'
+import adminRoutes from './routes/admin'
+import siteRoutes from './routes/site'
 
 const app = express();
 
 app.use(cors())
 app.set('db', db);
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -31,11 +33,11 @@ app.use(session({
 
 
 // Log requests to console
-app.use(morgan('dev'));  
+app.use(morgan('dev'));
 
 app.use(passport.initialize());
 app.use(passport.session());
-require('./config/passport')(passport);  
+require('./config/passport')(passport);
 
 
 app.use((req,res, next) => {
@@ -53,7 +55,10 @@ app.use(function(err, req, res, next) {
 	res.json({message: 'Unknown', error: error});
 });
 
-app.use('/', routes);
+app.set('view engine', 'ejs')
+
+app.use('/', siteRoutes);
+app.use('/admin', adminRoutes);
 
 app.set('port', process.env.PORT || 1337);
 
