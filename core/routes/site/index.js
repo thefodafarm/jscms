@@ -11,7 +11,8 @@ function initializeSiteRoutes() {
   const siteDirPath = path.resolve(__dirname, '../../../site');
   const siteFilePaths = getFileNamesRecursively(siteDirPath);
   siteFilePaths.forEach((filePath, i) => {
-    const routeName = stripPrefixAndExtension(filePath, siteDirPath);
+    let routeName = stripPrefixAndExtension(filePath, siteDirPath);
+    routeName = convertIndexToRootOfFolder(routeName)
     createRoute(routeName, filePath);
   });
 }
@@ -33,10 +34,16 @@ function stripPrefixAndExtension(fileName, prefix) {
     .replace(extension, '')
 }
 
+function convertIndexToRootOfFolder(routeName) {
+  if (routeName === '/index') {
+    return routeName.replace('/index', '/')
+  }
+  return routeName;
+}
+
 function createRoute(routeName, filePath) {
   const optionalRouteParam = '/:param*?';
-  console.log(routeName + optionalRouteParam)
-  router.get(routeName + optionalRouteParam, function (req, res) {
+  router.get(routeName + optionalRouteParam, function(req, res) {
     pageController.renderServerPage(req, res, filePath)
   });
 }
