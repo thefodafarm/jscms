@@ -59,6 +59,7 @@ app.set('view engine', 'ejs')
 app.use('/', siteRoutes);
 app.use('/admin/api', adminRoutes);
 app.use('/admin', express.static(path.resolve(__dirname, '../build')))
+app.use('/admin', express.static(path.resolve(__dirname, '../build/admin')))
 
 app.set('port', process.env.PORT || 1337);
 
