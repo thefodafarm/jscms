@@ -74,10 +74,23 @@ module.exports = function(proxy, allowedHost) {
     historyApiFallback: {
       // Paths with dots should still use the history fallback.
       // See https://github.com/facebookincubator/create-react-app/issues/387.
+      index: "/admin/",
       disableDotRule: true,
     },
     public: allowedHost,
-    proxy,
+    proxy: [{
+      context: function(pathname, req) {
+        const isAdminPath = pathname.startsWith('/admin');
+        const isAdminApiPath = pathname.startsWith('/admin/api/');
+        const pathsToServeWithWebpack = isAdminPath && !isAdminApiPath;
+        const proxy = !pathsToServeWithWebpack;
+        return proxy;
+      },
+      target: "http://localhost:1337",
+      ignorePath: false,
+      changeOrigin: true,
+      secure: false
+    }],
     setup(app) {
       // This lets us open files from the runtime error overlay.
       app.use(errorOverlayMiddleware());

@@ -12,7 +12,7 @@ import Dashboard from './Dashboard'
 import AddEditPage from './AddEditPage'
 import Login from './Login'
 
-const instance = axios.create({baseURL: 'http://localhost:1337'})
+const instance = axios.create({baseURL: 'http://localhost:3000/admin/api/'})
 axios.defaults.headers.common['Authorization'] = 'JWT ' + localStorage.getItem('just.is.token');
 
 
@@ -39,13 +39,13 @@ class App extends Component {
   }
 
   getPages() {
-    instance.get('/admin/listPages').then((response) => {
+    instance.get('listPages').then((response) => {
           this.setState({"pages": response.data})
     }).catch((error) => {console.log(error)})
   }
-  
+
   createPage(page) {
-    instance.post('/admin/createPage',page).then((response) => {
+    instance.post('createPage',page).then((response) => {
       this.getPages();
       //TODO: Create my own history object as props, then use router to push route.
       window.location.replace('/')
@@ -55,7 +55,7 @@ class App extends Component {
   }
 
   editPage(id, page) {
-    instance.put(`/admin/editPage/${id}`,page).then((response) => {
+    instance.put(`editPage/${id}`,page).then((response) => {
       this.getPages();
       window.location.replace('/')
     }).catch((error) => {
@@ -64,7 +64,7 @@ class App extends Component {
   }
 
   deletePage(id) {
-    instance.delete(`/admin/deletePage/${id}`).then((response) => {
+    instance.delete(`deletePage/${id}`).then((response) => {
       this.getPages();
     }).catch((error) => {
       console.log(error)
@@ -72,11 +72,11 @@ class App extends Component {
   }
 
   signin(email, password) {
-    instance.post(`/admin/signin`, {email: email, password: password}).then((response) => {
+    instance.post(`signin`, {email: email, password: password}).then((response) => {
       this.setState({
         loggedIn: true
       });
-      
+
       window.localStorage.setItem('just.is.token', response.data.token);
       window.location.replace('/');
       axios.defaults.headers.common['Authorization'] = 'JWT ' + localStorage.getItem('just.is.token');
@@ -89,7 +89,7 @@ class App extends Component {
     this.setState({
       loggedIn: false
     });
-    
+
     window.localStorage.removeItem('just.is.token');
 
     window.location.replace('/admin/login');
@@ -98,7 +98,7 @@ class App extends Component {
   register() {
     //TODO register
   }
-  
+
   render() {
     return (
       <Router>

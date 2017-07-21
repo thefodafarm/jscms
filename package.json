@@ -74,7 +74,7 @@
   "scripts": {
     "start": "node core/dev/scripts/start.js",
     "build": "node core/dev/scripts/build.js",
-    "dev": "concurrently \"npm run start\" \"nodemon --inspect core/Server.js --exec babel-node\"",
+    "dev": "concurrently \"npm run start\" \"nodemon --inspect core/Server.js --ignore core/admin/ --exec babel-node\"",
     "test": "node core/dev/scripts/test.js --env=jsdom"
   },
   "jest": {
@@ -109,5 +109,6 @@
   },
   "eslintConfig": {
     "extends": "react-app"
-  }
+  },
+  "homepage": "/admin/"
 }
